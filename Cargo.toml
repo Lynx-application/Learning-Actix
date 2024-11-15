@@ -1,0 +1,7 @@
+[package]
+name = "test_proj"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+crate_template_lynx = "0.0.2"
