@@ -4,4 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+actix-web = "4" 
 crate_template_lynx = "0.0.2"
+your_middleware_crate_name = "0.1.3"
