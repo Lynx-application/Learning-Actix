@@ -1,14 +1,16 @@
-// use crate_template_lynx::main as lynx_main;
+use actix_web::{App, HttpServer, Responder};
 
-// fn main() {
-//     lynx_main();
-// }
-
-use your_middleware_crate_name::run_server;
+async fn index() -> impl Responder {
+    "Hello, Actix!"
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let url = "127.0.0.1:8080"; // Address to bind the server
-
-    run_server(url).await
+    HttpServer::new(|| {
+        App::new()
+            .route("/", actix_web::web::get().to(index)) // Basic route
+    })
+    .bind("127.0.0.1:8080")? // Bind to localhost on port 8080
+    .run()
+    .await
 }
