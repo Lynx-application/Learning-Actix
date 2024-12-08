@@ -1,16 +1,15 @@
-use actix_web::{App, HttpServer, Responder};
+use actix_web::{App, HttpServer};
 
-async fn index() -> impl Responder {
-    "Hello, Actix!"
-}
+mod controllers;
+use controllers::sample_controller::register_routes;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .route("/", actix_web::web::get().to(index)) // Basic route
+            .configure(register_routes) // Call the configuration function
     })
-    .bind("127.0.0.1:8080")? // Bind to localhost on port 8080
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
