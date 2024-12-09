@@ -4,15 +4,11 @@ mod controllers;
 mod models;
 mod services;
 
-use controllers::page_controller::register_routes;
-use controllers::person_controller::register_route;
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .configure(register_routes) // Call the configuration function
-            .configure(register_route) // Call the configuration function
+            .configure(controllers::register_route)
     })
     .bind("127.0.0.1:8080")?
     .run()
