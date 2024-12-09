@@ -1,7 +1,10 @@
 use actix_web::{App, HttpServer};
 
 mod controllers;
-use controllers::sample_controller::register_routes;
+mod models;
+mod services;
+
+use controllers::page_controller::register_routes;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

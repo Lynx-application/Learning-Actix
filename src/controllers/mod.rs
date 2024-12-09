@@ -1,1 +1,1 @@
-pub mod sample_controller;
+pub mod page_controller;
