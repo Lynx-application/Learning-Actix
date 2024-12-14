@@ -1,4 +1,5 @@
-use actix_web::{App, HttpServer};
+use actix_cors::Cors;
+use actix_web::{get, http, web, App, HttpRequest, HttpResponse, HttpServer};
 
 mod controllers;
 mod models;
@@ -6,9 +7,18 @@ mod services;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .configure(controllers::register_route)
+    HttpServer::new(move || {
+        let cors = Cors::default()
+            .allowed_origin("http://localhost:4200") // Update with your Angular app's URL
+            .allowed_methods(vec!["GET", "POST", "OPTIONS"]) // Allowed methods
+            .allowed_headers(vec![
+                http::header::AUTHORIZATION,
+                http::header::ACCEPT,
+                http::header::CONTENT_TYPE,
+            ])
+            .max_age(3600);
+
+        App::new().wrap(cors).configure(controllers::register_route)
     })
     .bind("127.0.0.1:8080")?
     .run()
