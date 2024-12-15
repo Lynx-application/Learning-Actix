@@ -1,9 +1,9 @@
 use super::file_manager::read_json;
-use crate::models::page_struct::page;
+use crate::models::page_struct::Page;
 
-pub fn get_page_service() -> page {
+pub fn get_page_service() -> Page {
 
-    let res:page = read_json::<page>("src/data/page.json");
+    let res:Page = read_json::<Page>("src/data/page.json");
 
     res
 }
