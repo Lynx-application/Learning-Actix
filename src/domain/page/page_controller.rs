@@ -4,7 +4,9 @@ use actix_web::{
     HttpRequest, Responder,
 };
 
-use crate::services::{ip_address_service, page_service};
+use crate::services::ip_address_service;
+use super::page_service;
+
 
 #[get("/page")]
 pub async fn get_page_data(req: HttpRequest) -> impl Responder {

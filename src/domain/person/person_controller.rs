@@ -4,7 +4,7 @@ use actix_web::{
     Responder,
 };
 
-use crate::services::person_service;
+use super::person_service;
 
 #[get("/person/{id}")]
 pub async fn get_person_data(id: web::Path<String>) -> impl Responder {

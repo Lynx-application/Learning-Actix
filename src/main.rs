@@ -1,9 +1,10 @@
 use actix_cors::Cors;
 use actix_web::{http, App,HttpServer};
 
-mod controllers;
 mod models;
 mod services;
+
+mod domain;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -18,7 +19,7 @@ async fn main() -> std::io::Result<()> {
             ])
             .max_age(3600);
 
-        App::new().wrap(cors).configure(controllers::register_route)
+        App::new().wrap(cors).configure(domain::register_route)
     })
     .bind("127.0.0.1:8080")?
     .run()

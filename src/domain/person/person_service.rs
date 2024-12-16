@@ -1,5 +1,5 @@
-use super::file_manager::read_json;
-use crate::models::person_struct::Person;
+use crate::services::file_manager::read_json;
+use super::person_struct::Person;
 
 pub fn get_person_data(id: &str) -> Option<Person> {
     let res: Vec<Person> = read_json("src/data/people.json");
