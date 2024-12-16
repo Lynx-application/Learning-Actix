@@ -3,6 +3,7 @@ use actix_web::{http, App,HttpServer};
 
 mod application;
 
+#[path ="./domain/domain_module.rs"]
 mod domain;
 
 #[actix_web::main]
