@@ -1,4 +1,4 @@
-use crate::services::file_manager::read_json;
+use crate::application::file_manager::read_json;
 use super::person_struct::Person;
 
 pub fn get_person_data(id: &str) -> Option<Person> {

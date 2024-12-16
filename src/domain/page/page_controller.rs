@@ -4,7 +4,7 @@ use actix_web::{
     HttpRequest, Responder,
 };
 
-use crate::services::ip_address_service;
+use crate::application::ip_address_service;
 use super::page_service;
 
 

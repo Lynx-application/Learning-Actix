@@ -1,8 +1,7 @@
 use actix_cors::Cors;
 use actix_web::{http, App,HttpServer};
 
-mod models;
-mod services;
+mod application;
 
 mod domain;
 
