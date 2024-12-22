@@ -1,9 +1,7 @@
-// use crate::models::ip_address_struct::IpAddressStruct;
-
 use crate::{models::ip_address_struct::IpAddressStruct, services::file_manager};
 
 pub fn ip_address_service(ip: &str)-> bool {
-
+    
     let ip_values: Vec<&str> = ip.split(":").collect();
 
     let ip_address = ip_values.get(0).unwrap();
