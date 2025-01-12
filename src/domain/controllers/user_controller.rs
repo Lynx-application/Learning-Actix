@@ -1,6 +1,7 @@
 use actix_web::{web, HttpResponse, Responder};
 use crate::domain::models::user::NewUser;
 use crate::domain::services::user_service::UserService;
+use log::{error, info};
 
 /// Create a new user
 #[utoipa::path(
@@ -18,8 +19,14 @@ pub async fn create_user(
     new_user: web::Json<NewUser>,
 ) -> impl Responder {
     match user_service.create_user(new_user.into_inner()).await {
-        Ok(user) => HttpResponse::Created().json(user),
-        Err(_) => HttpResponse::InternalServerError().finish(),
+        Ok(user) => {
+            info!("User created successfully: {}", user.username);
+            HttpResponse::Created().json(user)
+        },
+        Err(e) => {
+            error!("Failed to create user: {}", e);
+            HttpResponse::InternalServerError().finish()
+        }
     }
 }
 

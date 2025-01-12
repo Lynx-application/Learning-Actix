@@ -11,6 +11,8 @@ use std::env;
 use utoipa_swagger_ui::SwaggerUi;
 use utoipa::OpenApi;
 use crate::api_docs::ApiDoc;
+use env_logger::Env;
+use log::{error, info};
 
 use crate::domain::controllers::user_controller;
 use crate::domain::services::user_service::UserService;
@@ -18,6 +20,7 @@ use crate::domain::services::user_service::UserService;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
+    env_logger::init_from_env(Env::default().default_filter_or("info"));
 
     let host = env::var("HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
     let port: u16 = env::var("PORT")
@@ -28,15 +31,20 @@ async fn main() -> std::io::Result<()> {
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     
     // Set up database connection pool
-    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    let manager = ConnectionManager::<PgConnection>::new(database_url.clone());
     let pool = r2d2::Pool::builder()
         .build(manager)
-        .expect("Failed to create pool");
+        .unwrap_or_else(|e| {
+            error!("Failed to create pool: Error({:?})", e);
+            panic!("Database connection failed");
+        });
 
     // Create user service
     let user_service = web::Data::new(UserService::new(pool));
 
-    println!("Starting server at {}:{}", host, port);
+    info!("Starting server at {}:{}", host, port);
+    info!("Database URL: {}", database_url);
+    info!("Swagger UI: http://{}:{}/swagger-ui/", host, port);
 
     HttpServer::new(move || {
         App::new()
