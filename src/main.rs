@@ -1,12 +1,16 @@
 mod domain;
 mod schema;
 mod db;
+mod api_docs;
 
 use actix_web::{web, App, HttpServer};
 use diesel::r2d2::{self, ConnectionManager};
 use diesel::PgConnection;
 use dotenv::dotenv;
 use std::env;
+use utoipa_swagger_ui::SwaggerUi;
+use utoipa::OpenApi;
+use crate::api_docs::ApiDoc;
 
 use crate::domain::controllers::user_controller;
 use crate::domain::services::user_service::UserService;
@@ -37,6 +41,10 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(user_service.clone())
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}")
+                    .url("/api-docs/openapi.json", ApiDoc::openapi())
+            )
             .service(
                 web::scope("/api")
                     .route("/users", web::post().to(user_controller::create_user))
