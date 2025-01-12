@@ -25,6 +25,20 @@ async fn main() -> std::io::Result<()> {
         .parse()
         .expect("PORT must be a valid number");
 
+    let db_user = env::var("POSTGRES_USER").expect("POSTGRES_USER must be set");
+    let db_password = env::var("POSTGRES_PASSWORD").expect("POSTGRES_PASSWORD must be set");
+    let db_name = env::var("POSTGRES_DB").expect("POSTGRES_DB must be set");
+    let database_url = env::var("DATABASE_URL")
+        .unwrap_or_else(|_| {
+            format!(
+                "postgres://{}:{}@localhost:5432/{}",
+                db_user, db_password, db_name
+            )
+        });
+
+    println!("Starting server at {}:{}", host, port);
+    println!("Database URL: {}", database_url);
+
     HttpServer::new(|| {
         App::new()
             .service(domain::test_controller::test)
