@@ -1,0 +1,10 @@
+[
+    {
+        "owner": "AmirHosein Mardani",
+        "address": "127.0.0.1",
+        "alternatives": [
+            "0.0.0.0",
+            "localhost"
+        ]
+    }
+]
